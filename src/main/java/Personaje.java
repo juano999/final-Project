@@ -22,7 +22,6 @@ public class Personaje {
         this.estamina =Integer.valueOf(characters.get(2));
         this.ataque =Integer.valueOf(characters.get(3));
         this.ataqueFinal = Integer.valueOf(characters.get(4));
-        this.image = new Image(characters.get(5));
     }
     
     

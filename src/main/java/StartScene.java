@@ -26,19 +26,20 @@ public class StartScene extends Application {
 
         startScreen.registerPlayerButton().setOnAction((event) -> {
 
-            window.maxHeightProperty();
+
             window.setWidth(500);
             window.setHeight(500);
             window.setScene(registry.showView(window));
         });
 
         registry.backStartScreenButton().setOnAction((event) -> {
-            window.setWidth(620);
-            window.setHeight(450);
+            window.setWidth(650);
+            window.setHeight(500);
             window.setScene(startScreen.showView());
         });
+        
 
-        window.setScene(fight.showView());
+        window.setScene(startScreen.showView());
         window.show();
 
     }

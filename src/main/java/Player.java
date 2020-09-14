@@ -1,70 +1,68 @@
 
-import java.util.ArrayList;
-
-
 public class Player {
     private String name;
     private String lastName;
-    private String cedula;
     private String id;
-    private String victories;
-    private Personaje personaje;
-    private final ArrayList<String> personaje1 = new ArrayList<>();
-    private final ArrayList<String> personaje2 = new ArrayList<>();
-    private final ArrayList<String> personaje3 = new ArrayList<>();
-    private final ArrayList<String> personaje4 = new ArrayList<>();
-    
-    public Player(String name, String lastName, String cedula, String id, String victorias){
+    private String ced;
+    private int wins;
+    private String usuario;
+
+    public Player(String name, String lastName, String id, String ced,String usuario, int wins) {
         this.name = name;
         this.lastName = lastName;
-        this.cedula = cedula;
         this.id = id;
-        personaje1.add("");
-        personaje1.add("");
-        personaje1.add("");
-        personaje1.add("");
-        personaje1.add("");
-        personaje2.add("");
-        personaje2.add("");
-        personaje2.add("");
-        personaje2.add("");
-        personaje3.add("");
-        personaje3.add("");
-        personaje3.add("");
-        personaje3.add("");
-        personaje4.add("");
-        personaje4.add("");
-        personaje4.add("");
-        personaje4.add("");
-        personaje4.add("");
+        this.ced = ced;
+        this.wins = wins;
+        this.usuario = usuario;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
     
-    public ArrayList<String> character(String name){
-        if(name.equals(this.personaje1.get(0))){
-            return this.personaje1;
-        }
-        if(name.equals(this.personaje2.get(0))){
-            return this.personaje1;
-        }
-        if(name.equals(this.personaje3.get(0))){
-            return this.personaje1;
-        }
-        if(name.equals(this.personaje4.get(0))){
-            return this.personaje1;
-        }
-        return null;
+
+    public String getName() {
+        return name;
     }
-    
-    public String getName(){
-        return this.name;
+
+    public void setName(String name) {
+        this.name = name;
     }
-    public String getLastName(){
-        return this.lastName;
+
+    public String getLastName() {
+        return lastName;
     }
-    public  String  getCedula(){
-        return this.cedula;
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
-    public  String  getId(){
-        return this.id;
+
+    public String getId() {
+        return id;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCed() {
+        return ced;
+    }
+
+    public void setCed(String ced) {
+        this.ced = ced;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+  
 }
