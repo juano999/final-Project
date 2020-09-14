@@ -16,11 +16,23 @@ public class Statistics {
     private BorderPane border;
     private GridPane gridpane;
     private TableView table;
+     private Button salir;
+     private    Button seleccionPersonajes;
    
     public Statistics(){
         this.border = new BorderPane();
         this.gridpane = new GridPane();
         this.table = new TableView();
+        salir = new Button("Crear");
+        seleccionPersonajes = new Button("Ir a seleccionar personajes");
+    }
+
+    public Button getSalir() {
+        return salir;
+    }
+
+    public Button getSeleccionPersonajes() {
+        return seleccionPersonajes;
     }
     
     public VBox table(){
@@ -42,8 +54,7 @@ public class Statistics {
         return vbox;
     }
     public Scene showView(){
-        Button salir = new Button("Crear");
-        Button seleccionPersonajes = new Button("Ir a seleccionar personajes");
+        
         salir.setTranslateX(220);
         seleccionPersonajes.setTranslateX(170);
         Label play = new Label("POO");

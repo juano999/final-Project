@@ -28,8 +28,9 @@ public class FightWindow {
     private Label[] stamiteCh;
     private Label[] imgChrPly;
     private Label registerView;
-    private HBox viewT;
-    private Scene viewF;
+    private Button nextView;
+    private VBox view;
+
     private boolean turn = false;
     private ArrayList<Player> players;
     private ArrayList<Button> buttonsplayer1 = new ArrayList<>();
@@ -40,8 +41,8 @@ public class FightWindow {
 
     public FightWindow(ArrayList<Player> players) {
         this.players = players;
-        this.viewT = new HBox();
-        this.viewT.getChildren().add(new Label(""));
+        this.view = new VBox();
+        
         this.register = new ArrayList<>();
         this.lifeCh = new Label[2];
         this.stamiteCh = new Label[2];
@@ -57,14 +58,18 @@ public class FightWindow {
 //        setImgCh(imgChrPly[0], "lol.jpg");
 //        setImgCh(imgChrPly[1], "lol.jpg");
         fight = new FightCaracters(players);
+        this.nextView= new Button("Finalizar");
+        this.nextView.setFont(Font.font("Verdana", 13));
+        this.nextView.setMinSize(200, 27);
+        this.nextView.setMaxSize(200, 27);
         this.optionF = 0;
         this.statics = new Statistics();
 
     }
 
     public Scene showView() {
-        this.viewT.getChildren().set(0, getView());
-        viewF = new Scene(viewT, 860, 500);
+        view.getChildren().add(getView());
+        Scene viewF = new Scene(view, 860, 550);
         return viewF;
     }
 
@@ -378,7 +383,7 @@ public class FightWindow {
         this.turn = !this.turn;
         buttonsPlayerDisable();
         registerView();
-        finalation();
+       finalation();
 
     }
 //finaliza el juego
@@ -387,21 +392,36 @@ public class FightWindow {
         switch (this.optionF) {
             case 1:
                 //finalizo con ganador
-                viewF = this.statics.showView();
-//aun toca ver como pasar a la otra ventana
+                BorderPane locateButton = new BorderPane();
+                locateButton.setCenter(this.nextView);
+                 this.view.getChildren().add(locateButton);
                 break;
             case 2:
                 //empate
                 Button again = new Button("EMPATE\nDe nuevo");
                 again.setOnAction(event -> {
-                    this.viewT.getChildren().remove(1);
+                   // this.view.getChildren().remove(this.view.getChildren().size()-1);
                     this.players.get(0).resetP();
                     this.players.get(1).resetP();
                     this.optionF = 0;
+                    turn=false;
                 });
-                this.viewT.getChildren().add(again);
+                this.view.getChildren().add(again);
                 break;
         }
+    }
+
+    public Button getNextView() {
+        return nextView;
+    }
+    public void resetViewP(){
+       this.view= new VBox();
+        this.players.get(0).resetP();
+        this.players.get(1).resetP();
+        this.optionF = 0;
+        this.registerView.setText("");
+        this.register.clear();
+        turn=false;
     }
 
 }

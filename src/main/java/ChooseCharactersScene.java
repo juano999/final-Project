@@ -19,13 +19,19 @@ import javafx.scene.text.Font;
  
 public class ChooseCharactersScene {
     private Button registerPlayerButton;
+    private Button startButton;
 
     public ChooseCharactersScene() {
         this.registerPlayerButton = new Button("Registrar \nJugador");
+        this.startButton = new Button("Empezar");
     }
 
     public Button registerPlayerButton() {
         return registerPlayerButton;
+    }
+
+    public Button getStartButton() {
+        return startButton;
     }
     
     
@@ -33,7 +39,7 @@ public class ChooseCharactersScene {
     public Scene showView() {
         Button selectPlayer1Button = new Button("Seleccionar \nJugador 1");
         Button selectPlayer2Button = new Button("Seleccionar \nJugador 2");
-        Button startButton = new Button("Empezar");
+        
         
         startButton.setAlignment(Pos.CENTER);
         VBox bottomButtons = new VBox();

@@ -53,14 +53,37 @@ public class StartScene extends Application {
             window.setHeight(500);
             window.setScene(registry.showView());
         });
+        startScreen.getStartButton().setOnAction((event) -> {
+            window.setWidth(860);
+            window.setHeight(550);
+            window.setScene(fight.showView());
+        });
 
         registry.backStartScreenButton().setOnAction((event) -> {
             window.setWidth(620);
             window.setHeight(450);
             window.setScene(startScreen.showView());
         });
+        fight.getNextView().setOnAction(event-> {
+            window.setWidth(620);
+            window.setHeight(450);
+            window.setScene(stast.showView());
+            fight.resetViewP();
+        });
+        stast.getSeleccionPersonajes().setOnAction((event) -> {
 
-        window.setScene(fight.showView());
+            window.setWidth(500);
+            window.setHeight(500);
+            window.setScene(startScreen.showView());
+        });
+        
+        stast.getSalir().setOnAction((event) -> {
+            window.setWidth(620);
+            window.setHeight(450);
+            window.setScene(startScreen.showView());
+        });
+
+        window.setScene(startScreen.showView());
         window.show();
 
     }
