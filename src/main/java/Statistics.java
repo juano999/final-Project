@@ -41,7 +41,7 @@ public class Statistics {
         vbox.maxHeight(25);
         return vbox;
     }
-    public Scene showView(Stage window){
+    public Scene showView(){
         Button salir = new Button("Crear");
         Button seleccionPersonajes = new Button("Ir a seleccionar personajes");
         salir.setTranslateX(220);
