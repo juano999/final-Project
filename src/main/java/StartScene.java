@@ -28,14 +28,15 @@ public class StartScene extends Application {
         personaje1.add("70");
         personaje1.add("80");
         personaje1.add("20");
-        personaje1.add("elementalAgua.jpg");
+        //System.out.println(startScreen.getImgChar1().getUrl());
+        personaje1.add("lol.jpg");
         personaje2.add("2");
         personaje2.add("210");
         personaje2.add("300");
         personaje2.add("50");
         personaje2.add("100");
         personaje2.add("10");
-        personaje2.add("elementalFuego.jpg");
+        personaje2.add("lol.jpg");
         Player p1 = new Player("A", "lA", "1752", "Q1w","q", 1);
         p1.newCaracter(personaje1);
         Player p2 = new Player("B", "lB", "1752", "Q1w","q", 0);

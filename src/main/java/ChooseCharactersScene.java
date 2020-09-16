@@ -23,6 +23,8 @@ import javafx.scene.text.Font;
 public class ChooseCharactersScene {
     private Button registerPlayerButton;
     private Button startButton;
+//    private String imgChar1;
+//    private String imgChar2;
 
 
 
@@ -37,6 +39,18 @@ public class ChooseCharactersScene {
     public Button registerPlayerButton() {
         return registerPlayerButton;
     }
+
+//    public String getImgChar1() {
+//        return imgChar1;
+//    }
+//
+//    public String getImgChar2() {
+//        return imgChar2;
+//    }
+
+    
+    
+    
     
     
     
@@ -91,9 +105,9 @@ public class ChooseCharactersScene {
         BorderPane selectCharSpace = new BorderPane();
                
         Image imgFire = new Image("dragon_fuego.jpg");
-        Image imgWater = new Image("agua.jpeg");
-        Image imgAir = new Image("aire.jpeg");
-        Image imgWorst = new Image("papa.jpeg");
+        Image imgWater = new Image("agua.jpg");
+        Image imgAir = new Image("aire.png");
+        Image imgWorst = new Image("papa.png");
         ImageView charFireView = new ImageView(imgFire);
         ImageView charWaterView = new ImageView(imgWater);
         ImageView charAirView = new ImageView(imgAir);
@@ -126,6 +140,8 @@ public class ChooseCharactersScene {
                 });
             }
         });
+//        this.imgChar1 = img1View.getImage().getUrl();
+//        this.imgChar2 = img2View.getImage().getUrl();
         
 
         VBox componentsLeft = new VBox();
