@@ -36,9 +36,9 @@ public class StartScene extends Application {
         personaje2.add("100");
         personaje2.add("10");
         personaje2.add("elementalFuego.jpg");
-        Player p1 = new Player("A", "lA", "1752", "Q1w");
+        Player p1 = new Player("A", "lA", "1752", "Q1w","q", 1);
         p1.newCaracter(personaje1);
-        Player p2 = new Player("B", "lB", "1752", "Q1w");
+        Player p2 = new Player("B", "lB", "1752", "Q1w","q", 0);
         p2.newCaracter(personaje2);
         players.add(p1);
         players.add(p2);
@@ -51,7 +51,7 @@ public class StartScene extends Application {
             window.maxHeightProperty();
             window.setWidth(500);
             window.setHeight(500);
-            window.setScene(registry.showView());
+            window.setScene(registry.showView(window));
         });
         startScreen.getStartButton().setOnAction((event) -> {
             window.setWidth(860);

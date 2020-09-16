@@ -6,11 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
+
 
 public class Statistics {
     private BorderPane border;
@@ -41,7 +42,11 @@ public class Statistics {
         this.table.setEditable(true);
         //Columnas de la tabla 
         TableColumn usuarioCol = new TableColumn("Usuario: ");
+        usuarioCol.setCellValueFactory(
+                new PropertyValueFactory<Player, String>("usuario"));
         TableColumn victoriasCol = new TableColumn("Victorias: ");
+        victoriasCol.setCellValueFactory(
+                new PropertyValueFactory<Player, String>("victories"));
         this.table.getColumns().add(usuarioCol);
         this.table.getColumns().add(victoriasCol);
  

@@ -9,6 +9,7 @@ public class Player {
     private String cedula;
     private String id;
     private int victories;
+    private  String usuario;
     private Personaje personaje;
     private int stamite;
     private int defense;
@@ -25,13 +26,47 @@ public class Player {
     }
 
     //toca pasara a un archivo
-    public Player(String name, String lastName, String cedula, String id) {
+    public Player(String name, String lastName, String cedula, String id, String usuario, int victories) {
         this.name = name;
         this.lastName = lastName;
         this.cedula = cedula;
         this.id = id;
         this.personaje = new Personaje();
+        this.usuario = usuario;
+        this.victories = victories;
 
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getVictories() {
+        return victories;
+    }
+
+    public void setVictories(int victories) {
+        this.victories = victories;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public Personaje getPersonaje() {
