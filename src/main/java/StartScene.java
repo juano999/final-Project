@@ -19,31 +19,7 @@ public class StartScene extends Application {
 
         Registry registry = new Registry();
 
-        ArrayList<Player> players = new ArrayList<>();
-        ArrayList<String> personaje1 = new ArrayList<>();
-        ArrayList<String> personaje2 = new ArrayList<>();
-        personaje1.add("1");
-        personaje1.add("200");
-        personaje1.add("500");
-        personaje1.add("70");
-        personaje1.add("80");
-        personaje1.add("20");
-        //System.out.println(startScreen.getImgChar1().getUrl());
-        personaje1.add("lol.jpg");
-        personaje2.add("2");
-        personaje2.add("210");
-        personaje2.add("300");
-        personaje2.add("50");
-        personaje2.add("100");
-        personaje2.add("10");
-        personaje2.add("lol.jpg");
-        Player p1 = new Player("A", "lA", "1752", "Q1w","q", 1);
-        p1.newCaracter(personaje1);
-        Player p2 = new Player("B", "lB", "1752", "Q1w","q", 0);
-        p2.newCaracter(personaje2);
-        players.add(p1);
-        players.add(p2);
-        FightWindow fight = new FightWindow(players);
+        FightWindow fight = new FightWindow();
         
         Statistics stast = new Statistics();
 
@@ -57,6 +33,7 @@ public class StartScene extends Application {
         startScreen.getStartButton().setOnAction((event) -> {
             window.setWidth(860);
             window.setHeight(550);
+            fight.setPlayers(startScreen.getPlayers());
             window.setScene(fight.showView());
         });
 
@@ -69,7 +46,6 @@ public class StartScene extends Application {
             window.setWidth(620);
             window.setHeight(450);
             window.setScene(stast.showView());
-            fight.resetViewP();
         });
         stast.getSeleccionPersonajes().setOnAction((event) -> {
 

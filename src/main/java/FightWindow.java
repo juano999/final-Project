@@ -1,25 +1,18 @@
 
-import java.awt.Color;
 import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
+
 
 public class FightWindow {
 
@@ -30,41 +23,43 @@ public class FightWindow {
     private Label registerView;
     private Button nextView;
     private VBox view;
-
-    private boolean turn = false;
-    private ArrayList<Player> players;
+    private boolean turn;
+    private Player[] players;
     private ArrayList<Button> buttonsplayer1 = new ArrayList<>();
     private ArrayList<Button> buttonsplayer2 = new ArrayList<>();
     private FightCaracters fight;
     private int optionF;
-    private Statistics statics;
 
-    public FightWindow(ArrayList<Player> players) {
-        this.players = players;
-        this.view = new VBox();
-        
+
+    public FightWindow() {
+        this.players = new Player[2];
         this.register = new ArrayList<>();
         this.lifeCh = new Label[2];
         this.stamiteCh = new Label[2];
-        this.imgChrPly = new Label[2];
-        this.imgChrPly[0] = new Label();
-        this.imgChrPly[0].setGraphic(this.players.get(0).getPersonaje().getImage());
-        this.imgChrPly[1] = new Label();
-        this.imgChrPly[1].setGraphic(this.players.get(1).getPersonaje().getImage());
-        this.registerView = new Label();
-        this.registerView.setStyle("-fx-border-color:black;");
-        this.registerView.setAlignment(Pos.TOP_LEFT);
-        setStyler(this.registerView, 10, 780, 50);
-//        setImgCh(imgChrPly[0], "lol.jpg");
-//        setImgCh(imgChrPly[1], "lol.jpg");
-        fight = new FightCaracters(players);
-        this.nextView= new Button("Finalizar");
+        this.imgChrPly = new Label[2];     
+        this.nextView = new Button("Finalizar");
         this.nextView.setFont(Font.font("Verdana", 13));
         this.nextView.setMinSize(200, 27);
         this.nextView.setMaxSize(200, 27);
         this.optionF = 0;
-        this.statics = new Statistics();
 
+
+    }
+
+    public void setPlayers(Player[] players) {
+        this.view = new VBox();
+        this.players= players;
+        this.imgChrPly[0] = new Label();
+        this.imgChrPly[0].setGraphic(this.players[0].getPersonaje().getImage());
+        this.imgChrPly[1] = new Label();
+        this.imgChrPly[1].setGraphic(this.players[1].getPersonaje().getImage());
+        this.registerView = new Label();
+        this.registerView.setStyle("-fx-border-color:black;");
+        this.registerView.setAlignment(Pos.TOP_LEFT);
+        setStyler(this.registerView, 10, 780, 50);
+        this.optionF = 0;
+        fight = new FightCaracters(players);
+        turn=false;
     }
 
     public Scene showView() {
@@ -220,10 +215,10 @@ public class FightWindow {
         GridPane panel = new GridPane();
         panel.setVgap(2);
         //etiquetas estaticas
-        eNickName = new Label(this.players.get(Hply).getPersonaje().getName());
+        eNickName = new Label(this.players[Hply].getPersonaje().getName());
         Label eLife = new Label("Vida:");
         Label eStamite = new Label("Estamita:");
-        nameUser = new Label(this.players.get(Hply).nameUser());
+        nameUser = new Label(this.players[Hply].nameUser());
         //ubicacion y control de vida y estamita
 
         BorderPane position = new BorderPane();
@@ -263,13 +258,6 @@ public class FightWindow {
         label.setMinSize(weight, tall);
     }
 
-    private void setImgCh(Label img, String dir) {
-        //formato de imagen
-        ImageView image = new ImageView(new Image(dir));
-        image.setFitHeight(150);
-        img.setGraphic(image);
-    }
-
     //actualizacion del registro de batalla
     private void registerView() {
         int sizeR = this.register.size();
@@ -288,9 +276,9 @@ public class FightWindow {
 
     //inicializa los labels de las caracteristicas de los jugadores
     private void resetLabels(int Hply) {
-        this.lifeCh[Hply] = new Label(this.players.get(Hply).getPersonaje().getVida() + "/" + this.players.get(Hply).getLife());
+        this.lifeCh[Hply] = new Label(this.players[Hply].getPersonaje().getVida() + "/" + this.players[Hply].getLife());
 
-        this.stamiteCh[Hply] = new Label(this.players.get(Hply).getPersonaje().getEstamina() + "/" + this.players.get(Hply).getStamite());
+        this.stamiteCh[Hply] = new Label(this.players[Hply].getPersonaje().getEstamina() + "/" + this.players[Hply].getStamite());
     }
 
     //devuelve que jugador esta ejecutando la accion
@@ -310,7 +298,7 @@ public class FightWindow {
         if (!howPlayer) {
             t = 1;
         }
-        return (this.players.get(t).stamiteIsNotEmpty(cost));
+        return (this.players[t].stamiteIsNotEmpty(cost));
     }
     //desactiva los botones si no hay estamita
 
@@ -342,7 +330,7 @@ public class FightWindow {
             turnH = 1;
             other = 0;
         }
-        if (this.players.get(turnH).getPersonaje().getVida() == 0 && this.players.get(other).getPersonaje().getVida() == 0) {
+        if (this.players[turnH].getPersonaje().getVida() == 0 && this.players[other].getPersonaje().getVida() == 0) {
             this.register.add("empate");
             this.optionF = 2;
             for (Button button : buttonsPlayer(!turn)) {
@@ -352,9 +340,9 @@ public class FightWindow {
                 button.setDisable(true);
             }
         }
-        if (this.players.get(turnH).getPersonaje().getVida() == 0) {
+        if (this.players[turnH].getPersonaje().getVida() == 0) {
             this.optionF = 1;
-            this.players.get(other).win();
+            this.players[other].win();
             this.register.add(howPlayer(!turn) + " gano");
             for (Button button : buttonsPlayer(!turn)) {
                 button.setDisable(true);
@@ -383,7 +371,7 @@ public class FightWindow {
         this.turn = !this.turn;
         buttonsPlayerDisable();
         registerView();
-       finalation();
+        finalation();
 
     }
 //finaliza el juego
@@ -394,17 +382,17 @@ public class FightWindow {
                 //finalizo con ganador
                 BorderPane locateButton = new BorderPane();
                 locateButton.setCenter(this.nextView);
-                 this.view.getChildren().add(locateButton);
+                this.view.getChildren().add(locateButton);
                 break;
             case 2:
                 //empate
                 Button again = new Button("EMPATE\nDe nuevo");
                 again.setOnAction(event -> {
-                   // this.view.getChildren().remove(this.view.getChildren().size()-1);
-                    this.players.get(0).resetP();
-                    this.players.get(1).resetP();
+                    // this.view.getChildren().remove(this.view.getChildren().size()-1);
+                    this.players[0].resetP();
+                    this.players[1].resetP();
                     this.optionF = 0;
-                    turn=false;
+                    turn = false;
                 });
                 this.view.getChildren().add(again);
                 break;
@@ -414,14 +402,15 @@ public class FightWindow {
     public Button getNextView() {
         return nextView;
     }
-    public void resetViewP(){
-       this.view= new VBox();
-        this.players.get(0).resetP();
-        this.players.get(1).resetP();
+
+    public void resetViewP() {
+        this.view = new VBox();
+        this.players[0].resetP();
+        this.players[1].resetP();
         this.optionF = 0;
         this.registerView.setText("");
         this.register.clear();
-        turn=false;
+        turn = false;
     }
 
 }

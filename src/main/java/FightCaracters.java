@@ -4,9 +4,9 @@ import javafx.scene.control.Label;
 
 public class FightCaracters {
 
-    private ArrayList<Player> players;
+    private Player[] players;
 
-    public FightCaracters(ArrayList<Player> players) {
+    public FightCaracters(Player[] players) {
 
         this.players = players;
     }
@@ -18,16 +18,16 @@ public class FightCaracters {
             turn = 1;
             other = 0;
         }
-        if (this.players.get(turn).stamiteIsNotEmpty(5)) {
+        if (this.players[turn].stamiteIsNotEmpty(5)) {
             System.out.println("si hay mana");
-            this.players.get(other).damage(this.players.get(turn).atackAction());
+            this.players[other].damage(this.players[turn].atackAction());
         } else {
-            int damgeT = this.players.get(turn).atackAction();
-            this.players.get(other).damage(damgeT);
-            this.players.get(turn).damage(damgeT);
-            this.players.get(turn).getPersonaje().stamiteStatic();
+            int damgeT = this.players[turn].atackAction();
+            this.players[other].damage(damgeT);
+            this.players[turn].damage(damgeT);
+            this.players[turn].getPersonaje().stamiteStatic();
         }
-        System.out.println(turn + " uso ataque " + this.players.get(turn).getPersonaje().getEstamina());
+        System.out.println(turn + " uso ataque " + this.players[turn].getPersonaje().getEstamina());
 
     }
     //ejecuta el ataque fuerte
@@ -39,12 +39,12 @@ public class FightCaracters {
             other = 0;
         }
 
-        if (this.players.get(turn).stamiteIsNotEmpty(50)) {
+        if (this.players[turn].stamiteIsNotEmpty(50)) {
             System.out.println("si hay mana");
-            this.players.get(other).damage(this.players.get(turn).atackFinalAction());
+            this.players[other].damage(this.players[turn].atackFinalAction());
         }
 
-        System.out.println(turn + " uso ataque Final " + this.players.get(turn).getPersonaje().getEstamina());
+        System.out.println(turn + " uso ataque Final " + this.players[turn].getPersonaje().getEstamina());
 
     }
     //Activa la curacion
@@ -54,10 +54,10 @@ public class FightCaracters {
         if (!whoPlayer) {
             turn = 1;
         }
-        if (this.players.get(turn).stamiteIsNotEmpty(20)) {
-            this.players.get(turn).Heal();
+        if (this.players[turn].stamiteIsNotEmpty(20)) {
+            this.players[turn].Heal();
         }
-        System.out.println(turn + " uso heal " + this.players.get(turn).getPersonaje().getEstamina());
+        System.out.println(turn + " uso heal " + this.players[turn].getPersonaje().getEstamina());
 
     }
 
@@ -67,19 +67,19 @@ public class FightCaracters {
         if (!whoPlayer) {
             turn = 1;
         }
-        if (this.players.get(turn).stamiteIsNotEmpty(75)) {
-            if (!this.players.get(turn).defenseActive) {
-                this.players.get(turn).defenseOn();
+        if (this.players[turn].stamiteIsNotEmpty(75)) {
+            if (!this.players[turn].defenseActive) {
+                this.players[turn].defenseOn();
             }
         }
-        System.out.println(turn + " uso protect " + this.players.get(turn).getPersonaje().getEstamina());
+        System.out.println(turn + " uso protect " + this.players[turn].getPersonaje().getEstamina());
     }
     //resetea los labels de vida   
 
     public Label[] resetLabelLife(Label[] labelsLife) {
 
-        labelsLife[0] = formatLabel(labelsLife[0], this.players.get(0).getPersonaje().getVida(), this.players.get(0).getLife());
-        labelsLife[1] = formatLabel(labelsLife[1], this.players.get(1).getPersonaje().getVida(), this.players.get(1).getLife());
+        labelsLife[0] = formatLabel(labelsLife[0], this.players[0].getPersonaje().getVida(), this.players[0].getLife());
+        labelsLife[1] = formatLabel(labelsLife[1], this.players[1].getPersonaje().getVida(), this.players[1].getLife());
 
         return labelsLife;
 
@@ -88,8 +88,8 @@ public class FightCaracters {
 
     public Label[] resetLabelStamite(Label[] labelsStamite) {
 
-        labelsStamite[0] = formatLabel(labelsStamite[0], this.players.get(0).getPersonaje().getEstamina(), this.players.get(0).getStamite());
-        labelsStamite[1] = formatLabel(labelsStamite[1], this.players.get(1).getPersonaje().getEstamina(), this.players.get(1).getStamite());
+        labelsStamite[0] = formatLabel(labelsStamite[0], this.players[0].getPersonaje().getEstamina(), this.players[0].getStamite());
+        labelsStamite[1] = formatLabel(labelsStamite[1], this.players[1].getPersonaje().getEstamina(), this.players[1].getStamite());
 
         return labelsStamite;
     }

@@ -27,6 +27,7 @@ public class Personaje {
         this.defense = Integer.valueOf(characters.get(5));
         this.image =  new ImageView(new Image(characters.get(6)));
         this.image.setFitHeight(150);
+        this.image.setFitWidth(200);
         this.life = vida;
     }
 
