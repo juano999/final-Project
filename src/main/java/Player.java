@@ -13,7 +13,7 @@ public class Player {
     private Personaje personaje;
     private int stamite;
     private int defense;
-    boolean defenseActive = false;
+    public boolean defenseActive = false;
     private int turnActive;
     private int life;
 
@@ -170,5 +170,8 @@ public class Player {
     public void resetP() {
         this.personaje.setVida(life);
         this.personaje.setEstamina(stamite);
+    }
+    public void recoverStamite(){
+        this.personaje.winEstamina();
     }
 }

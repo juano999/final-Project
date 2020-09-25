@@ -9,6 +9,7 @@ public class Personaje {
     private int vida;
     private int life;
     private int estamina;
+    private int stamite;
     private int ataque;
     private int ataqueFinal;
     private int defense;
@@ -29,6 +30,7 @@ public class Personaje {
         this.image.setFitHeight(150);
         this.image.setFitWidth(200);
         this.life = vida;
+        this.stamite= this.estamina;
     }
 
     public void setVida(int vida) {
@@ -65,6 +67,15 @@ public class Personaje {
         System.out.println("deberia perder " + atackCost);
         this.estamina -= atackCost;
     }
+    
+    public void winEstamina(){
+        int plusEstamita= (stamite*10)/100;
+        this.estamina+=plusEstamita;
+        if (this.estamina > this.stamite) {
+            this.estamina = this.stamite;
+        }
+    }
+    
 //devuelve 0
 
     public void stamiteStatic() {

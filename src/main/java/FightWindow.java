@@ -1,5 +1,11 @@
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -10,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -29,6 +36,8 @@ public class FightWindow {
     private ArrayList<Button> buttonsplayer2 = new ArrayList<>();
     private FightCaracters fight;
     private int optionF;
+    private  Image picBG= new Image ("hoja.gif");
+
 
 
     public FightWindow() {
@@ -76,6 +85,9 @@ public class FightWindow {
         view.setStyle("-fx-border-color:black;");
         view.setPadding(new Insets(10, 10, 10, 10));
         //elementos dentro de la pantalla
+        
+        //Parte superior
+        StackPane squareAction= new StackPane();
 
         VBox challengersDatas = new VBox();//datos del jugadores y personaje
         BorderPane buttonsPlayersAction = new BorderPane();//botones de accion
@@ -105,6 +117,15 @@ public class FightWindow {
         //añade en una fila
         challengersDatas.getChildren().add(locateCtInfo1);
         challengersDatas.getChildren().add(locateCtInfo2);
+        ImageView background = new ImageView();
+        background.setImage(new Image ("hoja.gif"));
+        background.setFitHeight(200);
+        background.setPreserveRatio(true);
+        background.setSmooth(true);
+        background.setCache(true);
+        
+        squareAction.getChildren().addAll(background,challengersDatas);
+
 
 //relleno de buttonsPlayersAction
         //cuadro de botones
@@ -126,10 +147,18 @@ public class FightWindow {
         buttonsAndRegister.getChildren().add(this.registerView);
 
 //añade a la pantalla
-        view.getChildren().add(challengersDatas);
+        view.getChildren().add(squareAction);
         view.getChildren().add(buttonsAndRegister);
-
         return view;
+//        StackPane squareAction = new StackPane();
+//        ImageView background = new ImageView();
+//        background.setImage(new Image ("hoja.gif"));
+//        background.setFitHeight(500);
+//        background.setPreserveRatio(true);
+//        background.setSmooth(true);
+//        background.setCache(true);
+//        squareAction.getChildren().add(background);
+//        return squareAction;
     }
 
     //inicializa los botones
@@ -365,9 +394,9 @@ public class FightWindow {
 
     private void actuallyView(String dialog) {
         this.lifeCh = fight.resetLabelLife(lifeCh);
+        this.fight.recoverStamite(!turn);
         this.stamiteCh = fight.resetLabelStamite(stamiteCh);
         this.register.add(howPlayer(turn) + dialog);
-
         this.turn = !this.turn;
         buttonsPlayerDisable();
         registerView();
@@ -383,18 +412,9 @@ public class FightWindow {
                 BorderPane locateButton = new BorderPane();
                 locateButton.setCenter(this.nextView);
                 this.view.getChildren().add(locateButton);
-                break;
-            case 2:
-                //empate
-                Button again = new Button("EMPATE\nDe nuevo");
-                again.setOnAction(event -> {
-                    // this.view.getChildren().remove(this.view.getChildren().size()-1);
-                    this.players[0].resetP();
-                    this.players[1].resetP();
-                    this.optionF = 0;
-                    turn = false;
-                });
-                this.view.getChildren().add(again);
+                System.out.println("jugador 1 "+this.players[0].getVictories());
+                System.out.println("jugador 2 "+this.players[1].getVictories());
+                saveInfo();
                 break;
         }
     }
@@ -412,5 +432,59 @@ public class FightWindow {
         this.register.clear();
         turn = false;
     }
+    private void saveInfo() {
+        ArrayList<Player> pls= new ArrayList<>();
+        ArrayList<String> id= new ArrayList<>();
+        try (Scanner scan = new Scanner(Paths.get("usuarios.txt"))) {
+            while (scan.hasNextLine()) {
+                String string = scan.nextLine();
+                if (string.equals(" ")) {
+                    break;
+                }
+               String[] parts = string.split(" ");
+                id.add(parts[0]);
+               pls.add(new Player(parts[1],parts[2],parts[0],parts[3],parts[4],Integer.valueOf(parts[5])));
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        System.out.println("ids: "+id.size());
+        int pl1i= found(this.players[0], id);
+        int pl2i= found(this.players[1], id);
+        System.out.println("player 1"+ pl1i);
+        System.out.println("player 2"+pl2i);
 
+        pls.set(pl1i, this.players[0]);
+
+        pls.set(pl2i, this.players[1]);
+
+  
+        File f= new File("usuarios.txt");
+
+        try {
+            FileWriter w = new FileWriter(f);
+            BufferedWriter bw = new BufferedWriter(w);
+            PrintWriter wr = new PrintWriter(bw);
+            for (Player play : pls) {
+                wr.write(play.getId() + " " + play.getName() + " " + play.getLastName() + " " + play.getCedula() + " " + play.getUsuario() + " " + play.getVictories() + "\n");
+                System.out.println(play.getName()+" "+play.getVictories());
+            }
+            wr.close();
+            bw.close();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    private int found(Player pH, ArrayList<String> ids){
+       int ite=-1;
+        for(String id:ids){
+            ite++;
+            System.out.println("ids Buscados "+id);
+           if(id.equals(pH.getId())){
+               return ite;
+           }
+       }
+        return -1;
+    }
 }
