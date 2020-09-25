@@ -331,7 +331,7 @@ public class FightWindow implements SceneView{
         if (!stamiteIsEmpty(!howPlayer, 20)) {
             player.get(2).setDisable(true);
         }
-        if (!stamiteIsEmpty(!howPlayer, 75)) {
+        if (!stamiteIsEmpty(!howPlayer, 25)) {
             player.get(3).setDisable(true);
         }
     }
@@ -416,15 +416,6 @@ public class FightWindow implements SceneView{
         return nextView;
     }
 
-    public void resetViewP() {
-        this.view = new VBox();
-        this.players[0].resetP();
-        this.players[1].resetP();
-        this.optionF = 0;
-        this.registerView.setText("");
-        this.register.clear();
-        turn = false;
-    }
     private void saveInfo() {
         ArrayList<Player> pls= new ArrayList<>();
 
@@ -484,14 +475,5 @@ public class FightWindow implements SceneView{
             System.out.println("Error: " + e.getMessage());
         }
     }
-    private int found(Player pH, ArrayList<String> ids){
-
-        for (int i=0; i<ids.size();i++){
-            System.out.println("ids Buscados " + ids.get(i));
-            if(ids.get(i).equals(pH.getId())){
-                return i;
-            }
-        }
-        return -1;
-    }
+    
 }

@@ -137,7 +137,7 @@ public class Player {
 
     public void defenseOn() {
         if (!defenseActive) {
-            int loose = (stamite * 75) / 100;
+            int loose = (stamite * 25) / 100;
             this.personaje.looseEstamina(loose);
             defenseActive = true;
             this.turnActive = 3;//toca ver
@@ -151,9 +151,7 @@ public class Player {
             return false;
         }
         int loose = (stamite * cost) / 100;
-        int actual = (this.personaje.getEstamina());
         int stamiteFinish = this.personaje.getEstamina() - loose;
-        System.out.println("estamita actual " + actual + " estamita q va a perder " + loose + " lo que deberia quedar " + stamiteFinish);
         return stamiteFinish >= 0;
     }
 
@@ -168,12 +166,7 @@ public class Player {
         }
         this.victories++;
     }
-    //vuelven a pelear
 
-    public void resetP() {
-        this.personaje.setVida(life);
-        this.personaje.setEstamina(stamite);
-    }
     public void recoverStamite(){
         this.personaje.winEstamina();
     }

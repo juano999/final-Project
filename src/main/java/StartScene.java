@@ -28,7 +28,7 @@ public class StartScene extends Application {
             window.maxHeightProperty();
             window.setWidth(500);
             window.setHeight(500);
-            window.setScene(registry.showView(window));
+            window.setScene(registry.showView());
         });
         startScreen.getStartButton().setOnAction((event) -> {
             window.setWidth(860);
@@ -48,16 +48,15 @@ public class StartScene extends Application {
             window.setScene(stast.showView());
         });
         stast.getSeleccionPersonajes().setOnAction((event) -> {
-
-            window.setWidth(500);
-            window.setHeight(500);
+            window.setWidth(620);
+            window.setHeight(450);
             window.setScene(startScreen.showView());
         });
 
         stast.getSalir().setOnAction((event) -> {
             window.setWidth(620);
             window.setHeight(450);
-            window.setScene(registry.showView(window));
+            window.setScene(registry.showView());
         });
 
         window.setScene(startScreen.showView());
