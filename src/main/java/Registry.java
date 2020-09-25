@@ -1,5 +1,4 @@
 
-    
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -27,7 +26,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Registry {
+public class Registry implements SceneView{
 
     private Button seleccionarPersonajes;
 
@@ -74,14 +73,13 @@ public class Registry {
 
         this.seleccionarPersonajes = new Button("Ir a seleccionar personajes");
     }
-
-    public Scene showView(Stage window) {
+    @Override
+    public Scene showView() {
 
         BorderPane border = new BorderPane();
         GridPane gridpane = new GridPane();
         TableView table = new TableView();
         ChoiceBox id = new ChoiceBox(this.ids);
-       
 
         Button modificar = new Button("Modificar");
         Button eliminar = new Button("Eliminar");
@@ -93,8 +91,8 @@ public class Registry {
         Label cedula = new Label("Cedula: ");
         Label usuario = new Label("Usuario: ");
         Label newId = new Label("Nuevo Id: ");
-        
-          TextField newIdText = new TextField();
+
+        TextField newIdText = new TextField();
         TextField nombreText = new TextField();
         TextField apellidoText = new TextField();
         TextField cedulaText = new TextField();
@@ -104,10 +102,10 @@ public class Registry {
         ArrayList<String> cedu = this.cedules;
         ArrayList<String> usua = this.usuarios;
         ObservableList<String> idd = this.ids;
- 
+
         id.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue ov,
-                Number value, Number nuewvalue) {
+                    Number value, Number nuewvalue) {
                 nombreText.setText(na.get(nuewvalue.intValue()));
                 apellidoText.setText(lastna.get(nuewvalue.intValue()));
                 cedulaText.setText(cedu.get(nuewvalue.intValue()));
@@ -189,7 +187,7 @@ public class Registry {
 
     public ArrayList<String> getUsuarios() {
         ArrayList<String> newUsuarios = new ArrayList<>();
-        for(Player person : this.playersList){
+        for (Player person : this.playersList) {
             newUsuarios.add(person.getUsuario());
         }
         return newUsuarios;
@@ -217,9 +215,9 @@ public class Registry {
 
     public void removePlayer(String usuario) {
         ObservableList<Player> playersLis = FXCollections.observableArrayList();
-        ObservableList<String> ides= FXCollections.observableArrayList();
-        
-        for (int i= this.playersList.size()-1; i>=0; i-- ) {
+        ObservableList<String> ides = FXCollections.observableArrayList();
+
+        for (int i = this.playersList.size() - 1; i >= 0; i--) {
             if (!usuario.equals(this.playersList.get(i).getUsuario())) {
                 playersLis.add(this.playersList.get(i));
                 ides.add(this.playersList.get(i).getId());
@@ -230,12 +228,12 @@ public class Registry {
     }
 
     public void addPlayer(String name, String lastName, String id, String ced, String usuario) {
-        
-        if(this.ids.contains(id)){
+
+        if (this.ids.contains(id)) {
             this.error.setText("Usuario ya exite ingrese otro dato");
-            
-        }else{
-             this.playersList.add(new Player(name, lastName, id, ced, usuario, 0));
+
+        } else {
+            this.playersList.add(new Player(name, lastName, id, ced, usuario, 0));
             this.ids.add(id);
             this.usuarios.add(usuario);
         }
@@ -245,35 +243,28 @@ public class Registry {
         File f;
         f = new File("usuarios.txt");
 
-
         try {
             FileWriter w = new FileWriter(f);
             BufferedWriter bw = new BufferedWriter(w);
-            PrintWriter wr = new PrintWriter(bw); 
-            for(Player play: this.playersList){
+            PrintWriter wr = new PrintWriter(bw);
+            for (Player play : this.playersList) {
                 wr.write(play.getId() + " " + play.getName() + " " + play.getLastName() + " " + play.getCedula() + " " + play.getUsuario() + " " + play.getVictories() + "\n");
             }
             wr.close();
             bw.close();
 
-
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
-    
-    public void win(String name){
-        for(int i=0; i<this.playersList.size(); i++){
-            if(this.playersList.get(i).getName().equals(name)){
+
+    public void win(String name) {
+        for (int i = 0; i < this.playersList.size(); i++) {
+            if (this.playersList.get(i).getName().equals(name)) {
                 int wins = this.playersList.get(i).getVictories();
-                this.playersList.get(i).setVictories(wins+1);
+                this.playersList.get(i).setVictories(wins + 1);
             }
         }
         safeInformation();
     }
 }
-
-
-    
-
-

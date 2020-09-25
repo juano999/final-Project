@@ -163,6 +163,9 @@ public class Player {
     //Aumenta las vistorias
 
     public void win() {
+        if(this.victories==1){
+            this.victories=2;
+        }
         this.victories++;
     }
     //vuelven a pelear

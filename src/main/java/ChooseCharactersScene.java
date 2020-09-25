@@ -16,13 +16,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
- // @author carl-
+// @author carl-
+public class ChooseCharactersScene implements SceneView{
 
- 
-public class ChooseCharactersScene {
     private Button registerPlayerButton;
     private Button startButton;
     private Player[] players;
@@ -30,16 +31,13 @@ public class ChooseCharactersScene {
     private ArrayList<String> playersNames;
     private boolean selection1 = false;
     private boolean selection2 = false;
-    
-
-
 
     public ChooseCharactersScene() {
-        this.playersNames= new ArrayList<>();
-        this.playersRegister= new ArrayList<>();
+        this.playersNames = new ArrayList<>();
+        this.playersRegister = new ArrayList<>();
         this.registerPlayerButton = new Button("Registrar \nJugador");
         this.startButton = new Button("Empezar");
-        this.players= new Player[2];
+        this.players = new Player[2];
         try (Scanner scan = new Scanner(Paths.get("usuarios.txt"))) {
             while (scan.hasNextLine()) {
                 String string = scan.nextLine();
@@ -54,6 +52,7 @@ public class ChooseCharactersScene {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
     public Button getStartButton() {
         return startButton;
     }
@@ -63,19 +62,18 @@ public class ChooseCharactersScene {
     }
     //faltan
     //cargar personas desde el archivo
-    
-    
+    @Override
     public Scene showView() {
         this.startButton.setDisable(true);
 
-        CharacterInfo cInfo1= new CharacterInfo();
-        CharacterInfo cInfo2= new CharacterInfo();
+        CharacterInfo cInfo1 = new CharacterInfo();
+        CharacterInfo cInfo2 = new CharacterInfo();
         cInfo1.resetCharacter(0);
         cInfo2.resetCharacter(0);
         Button selectPlayer1Button = new Button("Seleccionar \nJugador 1");
         Button selectPlayer2Button = new Button("Seleccionar \nJugador 2");
-        selectPlayer2Button.setDisable(true);       
-        selectPlayer1Button.setDisable(true);       
+        selectPlayer2Button.setDisable(true);
+        selectPlayer1Button.setDisable(true);
         startButton.setAlignment(Pos.CENTER);
         VBox bottomButtons = new VBox();
         bottomButtons.getChildren().addAll(startButton, registerPlayerButton);
@@ -88,61 +86,72 @@ public class ChooseCharactersScene {
         ChoiceBox menuCharacters = new ChoiceBox(characters);
         menuCharacters.setPrefWidth(200);
 //titulos
-        Label gameTitleText = new Label("Dragons");
-        gameTitleText.setPadding(new Insets(0, 0, 0, 14));
-        gameTitleText.setFont(Font.font("Showcard Gothic", 35));
+        Label gameTitleText = new Label("The Killest");
+        gameTitleText.setPadding(new Insets(0, 0, 0, 0));
+        gameTitleText.setStyle("-fx-text-fill: radial-gradient(radius 180%, black, derive(white, -30%), derive(white, 30%));");
+        gameTitleText.setFont(Font.font("Showcard Gothic", 32));
 
         Label charactersText = new Label("Personajes:");
         charactersText.setPadding(new Insets(0, 0, 0, 33));
+        charactersText.setStyle("-fx-text-fill: radial-gradient(radius 180%, black, derive(white, -30%), derive(white, 30%));");
         charactersText.setFont(Font.font("Showcard Gothic", 20));
 //combo de seleccion nombres
-        List<String> namesList = this.playersNames;
+        ArrayList<String> namesList = this.playersNames;
         ObservableList<String> names = FXCollections.observableList(namesList);
 
         ChoiceBox menuPlayers1 = new ChoiceBox(names);
-        ChoiceBox menuPlayers2 = new ChoiceBox(names);
+        ChoiceBox menuPlayers2 = new ChoiceBox();
         menuPlayers1.setPrefWidth(150);
         menuPlayers2.setPrefWidth(150);
         menuPlayers2.setDisable(true);
 
-  //imagenes       
-
+        //imagenes       
         ImageView img1View = cInfo1.giveImg();
         ImageView img2View = cInfo2.giveImg();
         img1View.setFitWidth(150);
         img2View.setFitWidth(150);
-        Image imgCharacter1 = new Image("dragon_fuego.jpg");
-        ImageView imgCharacter1View = new ImageView(imgCharacter1);
-        imgCharacter1View.setFitWidth(200);
-        
+
+
+        //Fondo
+        Image backgroudImage = new Image("fondo.gif");
+        ImageView backgroundView = new ImageView(backgroudImage);
+        //backgroundView.setStyle("-fx-background-color: BLACK");
+        backgroundView.setFitHeight(450);
+        //backgroundView.setFitWidth(450);
+        backgroundView.setPreserveRatio(true);
+        backgroundView.setSmooth(true);
+        backgroundView.setCache(true);
+
         BorderPane selectCharSpace = new BorderPane();
 
-   //insertar imagenes     
+        //insertar imagenes     
         ArrayList<ImageView> images = cInfo1.giveImage();
 
-        for(ImageView view: images) {//da formato
+        for (ImageView view : images) {//da formato
             view.setFitHeight(200);
             view.setFitWidth(200);
         }
-        
+
         menuCharacters.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue ov, Object oldSelected, Object newSelected) {
                 System.out.println(newSelected);
-                selectCharSpace.setCenter(images.get((int)newSelected+1));
+                selectCharSpace.setCenter(images.get((int) newSelected + 1));
                 selectPlayer1Button.setOnAction((event) -> {
-                   img1View.setImage(images.get((int)newSelected+1).getImage());
-                   img1View.setFitHeight(100);
-                   img1View.setFitWidth(100);
-                   cInfo1.resetCharacter((int)newSelected+1);
-                   players[0].newCaracter(cInfo1.getCharacter());
+                    img1View.setImage(images.get((int) newSelected + 1).getImage());
+                    img1View.setFitHeight(100);
+                    img1View.setFitWidth(100);
+                    cInfo1.resetCharacter((int) newSelected + 1);
+                    players[0].newCaracter(cInfo1.getCharacter());
                     menuPlayers2.setDisable(false);
                     selectPlayer2Button.setDisable(false);
+
+                    menuPlayers2.setItems(getSubList((String) menuPlayers1.getValue(), namesList));
                 });
                 selectPlayer2Button.setOnAction((event) -> {
-                   img2View.setImage(images.get((int)newSelected+1).getImage());
-                   img2View.setFitHeight(100);
-                   img2View.setFitWidth(100);
+                    img2View.setImage(images.get((int) newSelected + 1).getImage());
+                    img2View.setFitHeight(100);
+                    img2View.setFitWidth(100);
                     cInfo2.resetCharacter((int) newSelected + 1);
                     players[1].newCaracter(cInfo2.getCharacter());
                     startButton.setDisable(false);
@@ -153,21 +162,21 @@ public class ChooseCharactersScene {
             @Override
             public void changed(ObservableValue ov, Object oldSelected, Object newSelected) {
                 System.out.println(newSelected);
-                String[] parts = playersRegister.get((int)newSelected).split(" ");
-                players[0]= new Player(parts[1],parts[2],parts[3],parts[0],parts[4],Integer.valueOf(parts[5]));
-                selectPlayer1Button.setDisable(false);  
+                String[] parts = playersRegister.get((int) newSelected).split(" ");
+                players[0] = new Player(parts[1], parts[2], parts[3], parts[0], parts[4], Integer.valueOf(parts[5]));
+                selectPlayer1Button.setDisable(false);
             }
         });
         menuPlayers2.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue ov, Object oldSelected, Object newSelected) {
                 System.out.println(newSelected);
-                String[] parts = playersRegister.get((int)newSelected).split(" ");
-                players[1]= new Player(parts[1],parts[2],parts[3],parts[0],parts[4],Integer.valueOf(parts[5]));
+                String[] parts = playersRegister.get((int) newSelected).split(" ");
+                players[1] = new Player(parts[1], parts[2], parts[3], parts[0], parts[4], Integer.valueOf(parts[5]));
             }
         });
-        
 
+        StackPane stackPane = new StackPane();
 
         VBox componentsLeft = new VBox();
         componentsLeft.setSpacing(10);
@@ -185,18 +194,27 @@ public class ChooseCharactersScene {
         componentsRight.getChildren().addAll(menuPlayers2, img2View, selectPlayer2Button);
 
         BorderPane layout = new BorderPane();
+        stackPane.getChildren().add(backgroundView);
 
         layout.setLeft(componentsLeft);
         layout.setRight(componentsRight);
         layout.setCenter(componentsCenter);
-        
-        Scene startScreen = new Scene(layout, 620, 430);
-        
+        stackPane.getChildren().add(layout);
+
+        Scene startScreen = new Scene(stackPane, 620, 430);
+
         return startScreen;
     }
 
     public Player[] getPlayers() {
         return players;
     }
-    
+
+    public static ObservableList<String> getSubList(String player, ArrayList<String> namesList) {
+        System.out.println(player);
+        namesList.remove(player);
+        ObservableList<String> newList = FXCollections.observableList(namesList);
+        return newList;
+    }
+
 }

@@ -21,7 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 
-public class FightWindow {
+public class FightWindow implements SceneView{
 
     private ArrayList<String> register;
     private Label[] lifeCh;
@@ -70,7 +70,7 @@ public class FightWindow {
         fight = new FightCaracters(players);
         turn=false;
     }
-
+    @Override
     public Scene showView() {
         view.getChildren().add(getView());
         Scene viewF = new Scene(view, 860, 550);
@@ -78,6 +78,7 @@ public class FightWindow {
     }
 
     public Parent getView() {
+
 
         VBox view = new VBox();//la pantalla completa
         //formato de pantalla
@@ -150,15 +151,7 @@ public class FightWindow {
         view.getChildren().add(squareAction);
         view.getChildren().add(buttonsAndRegister);
         return view;
-//        StackPane squareAction = new StackPane();
-//        ImageView background = new ImageView();
-//        background.setImage(new Image ("hoja.gif"));
-//        background.setFitHeight(500);
-//        background.setPreserveRatio(true);
-//        background.setSmooth(true);
-//        background.setCache(true);
-//        squareAction.getChildren().add(background);
-//        return squareAction;
+
     }
 
     //inicializa los botones
@@ -434,7 +427,7 @@ public class FightWindow {
     }
     private void saveInfo() {
         ArrayList<Player> pls= new ArrayList<>();
-        ArrayList<String> id= new ArrayList<>();
+
         try (Scanner scan = new Scanner(Paths.get("usuarios.txt"))) {
             while (scan.hasNextLine()) {
                 String string = scan.nextLine();
@@ -442,22 +435,37 @@ public class FightWindow {
                     break;
                 }
                String[] parts = string.split(" ");
-                id.add(parts[0]);
-               pls.add(new Player(parts[1],parts[2],parts[0],parts[3],parts[4],Integer.valueOf(parts[5])));
+                String id = parts[0];
+                String name = parts[1];
+                String lastName = parts[2];
+                String ced = parts[3];
+                String usuario = parts[4];
+                int wins = Integer.valueOf(parts[5]);
+                pls.add(new Player(name, lastName, id, ced, usuario, wins));
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-        System.out.println("ids: "+id.size());
-        int pl1i= found(this.players[0], id);
-        int pl2i= found(this.players[1], id);
-        System.out.println("player 1"+ pl1i);
-        System.out.println("player 2"+pl2i);
-
-        pls.set(pl1i, this.players[0]);
-
-        pls.set(pl2i, this.players[1]);
-
+        for (Player play : pls) {
+            System.out.println(play.getName() + " " + play.getVictories()+ " " + play.getId());
+        }
+        System.out.println("Salida");
+        System.out.println(this.players[0].getName()+" "+this.players[0].getId());
+        System.out.println(this.players[1].getName()+" "+this.players[1].getId());
+        for(Player plas:pls){
+            System.out.println(plas.getName()+" "+plas.getId()+" "+plas.getVictories());
+            if(plas.getId().equals(this.players[0].getId())){
+                if(this.players[0].getVictories()==1){
+                    plas.win();
+                }
+            }
+            if(plas.getId().equals(this.players[1].getId())){
+                if (this.players[1].getVictories() == 1) {
+                    plas.win();
+                }
+            }
+        }
+        
   
         File f= new File("usuarios.txt");
 
@@ -477,14 +485,13 @@ public class FightWindow {
         }
     }
     private int found(Player pH, ArrayList<String> ids){
-       int ite=-1;
-        for(String id:ids){
-            ite++;
-            System.out.println("ids Buscados "+id);
-           if(id.equals(pH.getId())){
-               return ite;
-           }
-       }
+
+        for (int i=0; i<ids.size();i++){
+            System.out.println("ids Buscados " + ids.get(i));
+            if(ids.get(i).equals(pH.getId())){
+                return i;
+            }
+        }
         return -1;
     }
 }

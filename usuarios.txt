@@ -1,4 +1,3 @@
-1752620979 Karen Hurtado 123456 hoal 0
-17526209878 Antony Sanchez 456789 como 0
-1785962485 Juan Bolaños 789456 tastu 0
-1004720510 Juan Bola�os 10047200510 juano999 0
+456789 Antony Sanchez 17526209878 como 10
+789456 Juan BolaÃ±os 1785962485 tastu 5
+1752620979 Karen Hurtado 123456 hoal 5
