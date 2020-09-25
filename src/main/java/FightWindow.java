@@ -78,8 +78,10 @@ public class FightWindow implements SceneView{
     }
 
     public Parent getView() {
-
-
+        System.out.println("Entrada");
+        System.out.println(this.players[0].getName()+" **  id:"+this.players[0].getId() + " **  victorias: " + this.players[0].getVictories());
+        System.out.println(this.players[1].getName()+" **  id:"+this.players[1].getId() + " **  victorias: " + this.players[1].getVictories());
+        System.out.println("--------------------------------\n");
         VBox view = new VBox();//la pantalla completa
         //formato de pantalla
         view.setSpacing(5);
@@ -331,7 +333,7 @@ public class FightWindow implements SceneView{
         if (!stamiteIsEmpty(!howPlayer, 20)) {
             player.get(2).setDisable(true);
         }
-        if (!stamiteIsEmpty(!howPlayer, 25)) {
+        if (!stamiteIsEmpty(!howPlayer, 75)) {
             player.get(3).setDisable(true);
         }
     }
@@ -416,6 +418,15 @@ public class FightWindow implements SceneView{
         return nextView;
     }
 
+    public void resetViewP() {
+        this.view = new VBox();
+        this.players[0].resetP();
+        this.players[1].resetP();
+        this.optionF = 0;
+        this.registerView.setText("");
+        this.register.clear();
+        turn = false;
+    }
     private void saveInfo() {
         ArrayList<Player> pls= new ArrayList<>();
 
@@ -438,23 +449,31 @@ public class FightWindow implements SceneView{
             System.out.println("Error: " + e.getMessage());
         }
         for (Player play : pls) {
-            System.out.println(play.getName() + " " + play.getVictories()+ " " + play.getId());
+            System.out.println(play.getName() + " **  id:" + play.getId()  +" **  victorias" + play.getVictories()+ " " );
         }
+        System.out.println("---------------------------");
         System.out.println("Salida");
-        System.out.println(this.players[0].getName()+" "+this.players[0].getId());
-        System.out.println(this.players[1].getName()+" "+this.players[1].getId());
+        System.out.println(this.players[0].getName()+" **  id:"+this.players[0].getId() + " **  victorias: " + this.players[0].getVictories());
+        System.out.println(this.players[1].getName()+" **  id:"+this.players[1].getId() + " **  victorias: " + this.players[1].getVictories());
+        System.out.println("Archivo-----------------");
         for(Player plas:pls){
-            System.out.println(plas.getName()+" "+plas.getId()+" "+plas.getVictories());
-            if(plas.getId().equals(this.players[0].getId())){
+            System.out.println("jugador: " + this.players[0].getName() + "lista player:" + plas.getName());
+            if(plas.getName().equals(this.players[0].getName())){
+                System.out.println("aqui entra 1");
                 if(this.players[0].getVictories()==1){
+                    System.out.println("aqui entra2");
                     plas.win();
                 }
             }
-            if(plas.getId().equals(this.players[1].getId())){
+            System.out.println("jugador: " + this.players[1].getName() + "lista player:" + plas.getName());
+            if(plas.getName().equals(this.players[1].getName())){
+                System.out.println("aqui entra 3");
                 if (this.players[1].getVictories() == 1) {
+                    System.out.println("aqui entra 4");
                     plas.win();
                 }
             }
+            System.out.println(plas.getName() + " **  id:" + plas.getId()  +"**  victorias" + plas.getVictories()+ " " );
         }
         
   
@@ -475,5 +494,15 @@ public class FightWindow implements SceneView{
             System.out.println("Error: " + e.getMessage());
         }
     }
-    
+    private int found(Player pH, ArrayList<String> ids){
+
+        for (int i=0; i<ids.size();i++){
+            System.out.println("ids Buscados " + ids.get(i));
+            
+            if(ids.get(i).equals(pH.getId())){
+                return i;
+            }
+        }
+        return -1;
+    }
 }

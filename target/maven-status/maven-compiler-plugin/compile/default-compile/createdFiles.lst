@@ -1,6 +1,6 @@
 FightWindow.class
 ChooseCharactersScene.class
 StartScene.class
-Player.class
 Registry.class
+Player.class
 Statistics.class

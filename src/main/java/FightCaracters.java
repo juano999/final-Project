@@ -67,7 +67,7 @@ public class FightCaracters {
         if (!whoPlayer) {
             turn = 1;
         }
-        if (this.players[turn].stamiteIsNotEmpty(25)) {
+        if (this.players[turn].stamiteIsNotEmpty(75)) {
             if (!this.players[turn].defenseActive) {
                 this.players[turn].defenseOn();
             }

@@ -21,12 +21,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Registry implements SceneView{
+public class Registry implements SceneView {
 
     private Button seleccionarPersonajes;
 
@@ -46,7 +48,7 @@ public class Registry implements SceneView{
         this.lastNames = new ArrayList<>();
         this.usuarios = new ArrayList<>();
         this.error = new Label("");
-        try (Scanner scan = new Scanner(Paths.get("usuarios.txt"))) {
+        try ( Scanner scan = new Scanner(Paths.get("usuarios.txt"))) {
             while (scan.hasNextLine()) {
                 String string = scan.nextLine();
                 if (string.equals(" ")) {
@@ -73,6 +75,7 @@ public class Registry implements SceneView{
 
         this.seleccionarPersonajes = new Button("Ir a seleccionar personajes");
     }
+
     @Override
     public Scene showView() {
 
@@ -81,8 +84,8 @@ public class Registry implements SceneView{
         TableView table = new TableView();
         ChoiceBox id = new ChoiceBox(this.ids);
 
-        Button modificar = new Button("Modificar");
-        Button eliminar = new Button("Eliminar");
+        Button newPlayerButton = new Button("Nuevo Player");
+        Button cancelButton = new Button("Cancelar");
         Button crear = new Button("Crear");
         // Button seleccionarPersonajes = new Button("Ir a seleccionar personajes");
 
@@ -92,11 +95,27 @@ public class Registry implements SceneView{
         Label usuario = new Label("Usuario: ");
         Label newId = new Label("Nuevo Id: ");
 
+        Image backgroudImage = new Image("fondo.gif");
+        ImageView backgroundView = new ImageView(backgroudImage);
+        backgroundView.setStyle("-fx-background-color: BLACK");
+        backgroundView.setFitHeight(450);
+        backgroundView.setPreserveRatio(true);
+        backgroundView.setSmooth(true);
+        backgroundView.setCache(true);
+        border.getChildren().add(backgroundView);
+
         TextField newIdText = new TextField();
         TextField nombreText = new TextField();
         TextField apellidoText = new TextField();
         TextField cedulaText = new TextField();
         TextField usuarioText = new TextField();
+        ArrayList<TextField> infoFields = new ArrayList<>();
+        infoFields.add(newIdText);
+        infoFields.add(nombreText);
+        infoFields.add(apellidoText);
+        infoFields.add(cedulaText);
+        infoFields.add(usuarioText);
+
         ArrayList<String> na = this.names;
         ArrayList<String> lastna = this.lastNames;
         ArrayList<String> cedu = this.cedules;
@@ -105,21 +124,21 @@ public class Registry implements SceneView{
 
         id.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue ov,
-                    Number value, Number nuewvalue) {
-                nombreText.setText(na.get(nuewvalue.intValue()));
-                apellidoText.setText(lastna.get(nuewvalue.intValue()));
-                cedulaText.setText(cedu.get(nuewvalue.intValue()));
-                usuarioText.setText(usua.get(nuewvalue.intValue()));
+                    Number value, Number newValue) {
+                nombreText.setText(na.get(newValue.intValue()));
+                apellidoText.setText(lastna.get(newValue.intValue()));
+                cedulaText.setText(cedu.get(newValue.intValue()));
+                usuarioText.setText(usua.get(newValue.intValue()));
             }
         }
         );
         gridpane.add(id, 2, 0);
         gridpane.add(nombre, 1, 2);
         gridpane.add(nombreText, 2, 2);
-        gridpane.add(modificar, 3, 2);
+        gridpane.add(newPlayerButton, 3, 2);
         gridpane.add(apellido, 1, 3);
         gridpane.add(apellidoText, 2, 3);
-        gridpane.add(eliminar, 3, 3);
+        gridpane.add(cancelButton, 3, 3);
         gridpane.add(cedula, 1, 4);
         gridpane.add(cedulaText, 2, 4);
         gridpane.add(usuario, 1, 5);
@@ -168,17 +187,32 @@ public class Registry implements SceneView{
         border.setCenter(vbox);
         border.setBottom(seleccionarPersonajes);
         border.setStyle("-fx-border-color:black; -fx-border-width: 1;");
-        modificar.setOnAction((event) -> {
-            setPlayersList(String.valueOf(nombreText.getText()), String.valueOf(apellidoText.getText()), String.valueOf(123), String.valueOf(cedulaText.getText()), String.valueOf(usuarioText.getText()));
-            safeInformation();
+
+        crear.setDisable(true);
+        cancelButton.setDisable(true);
+        textFieldDisable(infoFields, true);
+
+        newPlayerButton.setOnAction((event) -> {
+            textFieldDisable(infoFields, false);
+            setToBlank(infoFields);
+            crear.setDisable(false);
+            cancelButton.setDisable(false);
+            id.setDisable(true);
         });
+
         crear.setOnAction((event) -> {
-            addPlayer(String.valueOf(nombreText.getText()), String.valueOf(apellidoText.getText()), String.valueOf(newIdText.getText()), String.valueOf(cedulaText.getText()), String.valueOf(usuarioText.getText()));
-            safeInformation();
+            if (isAllWrite(infoFields)) {
+                addPlayer(String.valueOf(nombreText.getText()), String.valueOf(apellidoText.getText()), String.valueOf(newIdText.getText()), String.valueOf(cedulaText.getText()), String.valueOf(usuarioText.getText()));
+                safeInformation();
+                setToBlank(infoFields);
+                textFieldDisable(infoFields, true);
+                safeInformation();
+            }
         });
-        eliminar.setOnAction((event) -> {
-            removePlayer(String.valueOf(usuarioText.getText()));
-            safeInformation();
+
+        cancelButton.setOnAction((event) -> {
+            textFieldDisable(infoFields, true);
+            setToBlank(infoFields);
         });
 
         Scene registro = new Scene(border);
@@ -266,5 +300,27 @@ public class Registry implements SceneView{
             }
         }
         safeInformation();
+    }
+
+    public void setToBlank(ArrayList<TextField> fields) {
+        for (TextField textfield : fields) {
+            textfield.setText("");
+        }
+    }
+
+    public boolean isAllWrite(ArrayList<TextField> fields) {
+        boolean isWrite = true;
+        for (TextField textfield : fields) {
+            if (textfield.getText().equals("")) {
+                isWrite = false;
+            }
+        }
+        return isWrite;
+    }
+
+    private void textFieldDisable(ArrayList<TextField> player, boolean active) {
+        for (TextField button : player) {
+            button.setDisable(active);
+        }
     }
 }

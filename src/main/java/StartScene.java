@@ -48,8 +48,9 @@ public class StartScene extends Application {
             window.setScene(stast.showView());
         });
         stast.getSeleccionPersonajes().setOnAction((event) -> {
-            window.setWidth(620);
-            window.setHeight(450);
+
+            window.setWidth(500);
+            window.setHeight(500);
             window.setScene(startScreen.showView());
         });
 

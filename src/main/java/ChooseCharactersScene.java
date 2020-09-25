@@ -33,24 +33,11 @@ public class ChooseCharactersScene implements SceneView{
     private boolean selection2 = false;
 
     public ChooseCharactersScene() {
-        this.playersNames = new ArrayList<>();
-        this.playersRegister = new ArrayList<>();
+        
         this.registerPlayerButton = new Button("Registrar \nJugador");
         this.startButton = new Button("Empezar");
         this.players = new Player[2];
-        try (Scanner scan = new Scanner(Paths.get("usuarios.txt"))) {
-            while (scan.hasNextLine()) {
-                String string = scan.nextLine();
-                if (string.equals(" ")) {
-                    break;
-                }
-                this.playersRegister.add(string);
-                String[] parts = string.split(" ");
-                this.playersNames.add(parts[1]);
-            }
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        
     }
 
     public Button getStartButton() {
@@ -64,8 +51,22 @@ public class ChooseCharactersScene implements SceneView{
     //cargar personas desde el archivo
     @Override
     public Scene showView() {
+        this.playersNames = new ArrayList<>();
+        this.playersRegister = new ArrayList<>();
         this.startButton.setDisable(true);
-
+        try (Scanner scan = new Scanner(Paths.get("usuarios.txt"))) {
+            while (scan.hasNextLine()) {
+                String string = scan.nextLine();
+                if (string.equals(" ")) {
+                    break;
+                }
+                this.playersRegister.add(string);
+                String[] parts = string.split(" ");
+                this.playersNames.add(parts[1]);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
         CharacterInfo cInfo1 = new CharacterInfo();
         CharacterInfo cInfo2 = new CharacterInfo();
         cInfo1.resetCharacter(0);
@@ -147,6 +148,8 @@ public class ChooseCharactersScene implements SceneView{
                     selectPlayer2Button.setDisable(false);
 
                     menuPlayers2.setItems(getSubList((String) menuPlayers1.getValue(), namesList));
+                    selectPlayer1Button.setDisable(true);
+                    menuPlayers1.setDisable(true);
                 });
                 selectPlayer2Button.setOnAction((event) -> {
                     img2View.setImage(images.get((int) newSelected + 1).getImage());
@@ -155,6 +158,8 @@ public class ChooseCharactersScene implements SceneView{
                     cInfo2.resetCharacter((int) newSelected + 1);
                     players[1].newCaracter(cInfo2.getCharacter());
                     startButton.setDisable(false);
+                    selectPlayer2Button.setDisable(true);
+                    menuPlayers2.setDisable(true);
                 });
             }
         });

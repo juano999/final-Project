@@ -1,3 +1,6 @@
-456789 Antony Sanchez 17526209878 como 10
-789456 Juan BolaÃ±os 1785962485 tastu 5
-1752620979 Karen Hurtado 123456 hoal 5
+123 a b 1 aba 0
+123456 b asd 2 basa 0
+3 juan bolanos 100 juano 1
+4 chris sanchez 1000 cris12 0
+10237 karen hurtado 6 karen65 0
+109776 oscar haro 7 oca 0
