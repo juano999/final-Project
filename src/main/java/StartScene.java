@@ -1,7 +1,7 @@
- // @author carl-
 
 import java.util.ArrayList;
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 
 import javafx.stage.Stage;
 
@@ -20,7 +20,7 @@ public class StartScene extends Application {
         Registry registry = new Registry();
 
         FightWindow fight = new FightWindow();
-        
+
         Statistics stast = new Statistics();
 
         startScreen.registerPlayerButton().setOnAction((event) -> {
@@ -42,7 +42,7 @@ public class StartScene extends Application {
             window.setHeight(450);
             window.setScene(startScreen.showView());
         });
-        fight.getNextView().setOnAction(event-> {
+        fight.getNextView().setOnAction(event -> {
             window.setWidth(620);
             window.setHeight(450);
             window.setScene(stast.showView());
@@ -53,11 +53,11 @@ public class StartScene extends Application {
             window.setHeight(500);
             window.setScene(startScreen.showView());
         });
-        
+
         stast.getSalir().setOnAction((event) -> {
             window.setWidth(620);
             window.setHeight(450);
-            window.setScene(startScreen.showView());
+            window.setScene(registry.showView(window));
         });
 
         window.setScene(startScreen.showView());

@@ -96,8 +96,8 @@ public class ChooseCharactersScene {
         charactersText.setPadding(new Insets(0, 0, 0, 33));
         charactersText.setFont(Font.font("Showcard Gothic", 20));
 //combo de seleccion nombres
-Registry registry = new Registry();
-        ObservableList<String> names = FXCollections.observableList(registry.getUsuarios());
+        List<String> namesList = this.playersNames;
+        ObservableList<String> names = FXCollections.observableList(namesList);
 
         ChoiceBox menuPlayers1 = new ChoiceBox(names);
         ChoiceBox menuPlayers2 = new ChoiceBox(names);
