@@ -37,6 +37,7 @@ public class Registry {
     private ArrayList<String> lastNames;
     private ArrayList<String> cedules;
     private ArrayList<String> usuarios;
+    private Label error;
 
     public Registry() {
         this.playersList = FXCollections.observableArrayList();
@@ -45,6 +46,7 @@ public class Registry {
         this.cedules = new ArrayList<>();
         this.lastNames = new ArrayList<>();
         this.usuarios = new ArrayList<>();
+        this.error = new Label("");
         try (Scanner scan = new Scanner(Paths.get("usuarios.txt"))) {
             while (scan.hasNextLine()) {
                 String string = scan.nextLine();
@@ -91,6 +93,7 @@ public class Registry {
         Label cedula = new Label("Cedula: ");
         Label usuario = new Label("Usuario: ");
         Label newId = new Label("Nuevo Id: ");
+        
           TextField newIdText = new TextField();
         TextField nombreText = new TextField();
         TextField apellidoText = new TextField();
@@ -123,6 +126,7 @@ public class Registry {
         gridpane.add(cedulaText, 2, 4);
         gridpane.add(usuario, 1, 5);
         gridpane.add(usuarioText, 2, 5);
+        gridpane.add(this.error, 2, 6);
         gridpane.add(crear, 3, 5);
         gridpane.add(newId, 1, 1);
         gridpane.add(newIdText, 2, 1);
@@ -226,9 +230,15 @@ public class Registry {
     }
 
     public void addPlayer(String name, String lastName, String id, String ced, String usuario) {
-        this.playersList.add(new Player(name, lastName, id, ced, usuario, 0));
-        this.ids.add(id);
-        this.usuarios.add(usuario);
+        
+        if(this.ids.contains(id)){
+            this.error.setText("Usuario ya exite ingrese otro dato");
+            
+        }else{
+             this.playersList.add(new Player(name, lastName, id, ced, usuario, 0));
+            this.ids.add(id);
+            this.usuarios.add(usuario);
+        }
     }
 
     public void safeInformation() {
@@ -250,6 +260,16 @@ public class Registry {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+    
+    public void win(String name){
+        for(int i=0; i<this.playersList.size(); i++){
+            if(this.playersList.get(i).getName().equals(name)){
+                int wins = this.playersList.get(i).getVictories();
+                this.playersList.get(i).setVictories(wins+1);
+            }
+        }
+        safeInformation();
     }
 }
 

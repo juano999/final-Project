@@ -1,4 +1,6 @@
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -38,6 +40,8 @@ public class Statistics {
     
     public VBox table(){
         //Crear una tabla
+        Registry registry = new Registry();
+        ObservableList<Player> payerlist = registry.getPlayersList();
         Scene scene = new Scene(new Group());
         this.table.setEditable(true);
         //Columnas de la tabla 
@@ -49,6 +53,7 @@ public class Statistics {
                 new PropertyValueFactory<Player, String>("victories"));
         this.table.getColumns().add(usuarioCol);
         this.table.getColumns().add(victoriasCol);
+         table.setItems(payerlist);
  
         VBox vbox = new VBox();
         vbox.setSpacing(100);
