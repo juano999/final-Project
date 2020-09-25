@@ -109,5 +109,12 @@ public class FightCaracters {
         }
         return label;
     }
+    public void recoverStamite(boolean whoPlayer){
+        int turn = 1;
+        if (!whoPlayer) {
+            turn = 0;
+        }
+        this.players[turn].recoverStamite();
+    }
 
 }
