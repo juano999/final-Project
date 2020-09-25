@@ -39,24 +39,24 @@ public class StartScene extends Application {
 
         registry.backStartScreenButton().setOnAction((event) -> {
             window.setWidth(620);
-            window.setHeight(450);
+            window.setHeight(460);
             window.setScene(startScreen.showView());
         });
         fight.getNextView().setOnAction(event -> {
             window.setWidth(620);
-            window.setHeight(450);
+            window.setHeight(460);
             window.setScene(stast.showView());
         });
-        stast.getSeleccionPersonajes().setOnAction((event) -> {
+        stast.getSelecCharacters().setOnAction((event) -> {
 
-            window.setWidth(500);
-            window.setHeight(500);
+            window.setWidth(640);
+            window.setHeight(460);
             window.setScene(startScreen.showView());
         });
 
-        stast.getSalir().setOnAction((event) -> {
+        stast.getExit().setOnAction((event) -> {
             window.setWidth(620);
-            window.setHeight(450);
+            window.setHeight(460);
             window.setScene(registry.showView());
         });
 

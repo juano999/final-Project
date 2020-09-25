@@ -1,4 +1,5 @@
 
+import java.util.Comparator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -32,11 +33,11 @@ public class Statistics implements SceneView {
         seleccionPersonajes = new Button("Ir a seleccionar personajes");
     }
 
-    public Button getSalir() {
+    public Button getExit() {
         return salir;
     }
 
-    public Button getSeleccionPersonajes() {
+    public Button getSelecCharacters() {
         return seleccionPersonajes;
     }
 
@@ -98,3 +99,9 @@ public class Statistics implements SceneView {
         return registro;
     }
 }
+
+
+
+
+
+

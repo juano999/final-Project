@@ -127,9 +127,21 @@ public class FightWindow implements SceneView{
         background.setSmooth(true);
         background.setCache(true);
         
+        Image backgroudImage = new Image("fondo.gif");
+        ImageView backgroundView = new ImageView(backgroudImage);
+        backgroundView.setStyle("-fx-background-color: BLACK");
+        backgroundView.setFitHeight(400);
+        backgroundView.setPreserveRatio(true);
+        backgroundView.setSmooth(true);
+        backgroundView.setCache(true);
+        
+        this.registerView.setStyle("-fx-background-color: WHITE");
+
+        
         squareAction.getChildren().addAll(background,challengersDatas);
 
-
+        StackPane stackPane = new StackPane();
+        
 //relleno de buttonsPlayersAction
         //cuadro de botones
         GridPane buttonsPlayer1Format = new GridPane();
@@ -148,10 +160,11 @@ public class FightWindow implements SceneView{
 
         buttonsAndRegister.getChildren().add(buttonsPlayersAction);
         buttonsAndRegister.getChildren().add(this.registerView);
-
+        buttonsAndRegister.setStyle("-fx-background-color: radial-gradient(radius 120%, black, derive(black, -40%), derive(white, 60%));");
+        stackPane.getChildren().addAll( buttonsAndRegister);
 //añade a la pantalla
         view.getChildren().add(squareAction);
-        view.getChildren().add(buttonsAndRegister);
+        view.getChildren().add(stackPane);
         return view;
 
     }

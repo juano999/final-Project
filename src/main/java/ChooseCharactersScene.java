@@ -107,18 +107,21 @@ public class ChooseCharactersScene implements SceneView{
         menuPlayers2.setDisable(true);
 
         //imagenes       
-        ImageView img1View = cInfo1.giveImg();
-        ImageView img2View = cInfo2.giveImg();
-        img1View.setFitWidth(150);
-        img2View.setFitWidth(150);
+        ImageView img1View = new ImageView();
+        ImageView img2View = new ImageView();
+        
 
+        img1View.setFitWidth(150);
+        img1View.setFitHeight(150);
+        img2View.setFitWidth(150);
+        img2View.setFitHeight(150);
+        
 
         //Fondo
         Image backgroudImage = new Image("fondo.gif");
         ImageView backgroundView = new ImageView(backgroudImage);
-        //backgroundView.setStyle("-fx-background-color: BLACK");
+        backgroundView.setStyle("-fx-background-color: BLACK");
         backgroundView.setFitHeight(450);
-        //backgroundView.setFitWidth(450);
         backgroundView.setPreserveRatio(true);
         backgroundView.setSmooth(true);
         backgroundView.setCache(true);
@@ -140,8 +143,8 @@ public class ChooseCharactersScene implements SceneView{
                 selectCharSpace.setCenter(images.get((int) newSelected + 1));
                 selectPlayer1Button.setOnAction((event) -> {
                     img1View.setImage(images.get((int) newSelected + 1).getImage());
-                    img1View.setFitHeight(100);
-                    img1View.setFitWidth(100);
+                    img1View.setFitHeight(150);
+                    img1View.setFitWidth(150);
                     cInfo1.resetCharacter((int) newSelected + 1);
                     players[0].newCaracter(cInfo1.getCharacter());
                     menuPlayers2.setDisable(false);
@@ -153,8 +156,8 @@ public class ChooseCharactersScene implements SceneView{
                 });
                 selectPlayer2Button.setOnAction((event) -> {
                     img2View.setImage(images.get((int) newSelected + 1).getImage());
-                    img2View.setFitHeight(100);
-                    img2View.setFitWidth(100);
+                    img2View.setFitHeight(150);
+                    img2View.setFitWidth(150);
                     cInfo2.resetCharacter((int) newSelected + 1);
                     players[1].newCaracter(cInfo2.getCharacter());
                     startButton.setDisable(false);

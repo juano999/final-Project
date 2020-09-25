@@ -1,6 +1,6 @@
-123 a b 1 aba 0
-123456 b asd 2 basa 0
-3 juan bolanos 100 juano 1
-4 chris sanchez 1000 cris12 0
-10237 karen hurtado 6 karen65 0
-109776 oscar haro 7 oca 0
+1 a b 123 aba 0
+2 b asd 123456 basa 2
+100 juan bolanos 3 juano 3
+1000 chris sanchez 4 cris12 4
+6 karen hurtado 10237 karen65 1
+7 oscar haro 109776 oca 0
